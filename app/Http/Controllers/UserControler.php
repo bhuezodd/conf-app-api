@@ -56,7 +56,14 @@ class UserControler extends Controller
             "password" => Hash::make($request->password),
             "name" => $request->name,
         ]);
-        return $user;
+        if ($user) {
+            return response()->json([
+                'message' => 'Registrado puto!'
+            ]);
+        }
+        return response()->json([
+            'message' => 'Puta la cagaste!'
+        ]);
     }
 
     /**
