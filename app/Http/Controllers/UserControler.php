@@ -58,6 +58,7 @@ class UserControler extends Controller
         ]);
         if ($user) {
             return response()->json([
+                'type' => 'success',
                 'message' => 'Registrado puto!'
             ]);
         }
