@@ -6,6 +6,7 @@ use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UserControler extends Controller
 {
@@ -49,8 +50,13 @@ class UserControler extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(UserRequest $request)
+    public function store(Request $request)// UserRequest $request)
     { 
+        $image = $request->image->store('users');
+
+        $url = Storage::url($image);
+        dd($url);
+
         $user = $this->user->create([
             "email" => $request->email,
             "password" => Hash::make($request->password),
