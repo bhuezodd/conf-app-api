@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\UserControler;
-use Illuminate\Http\Request;
+use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\EventsController;
+use App\Http\Controllers\API\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,9 +16,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/login', [UserControler::class, "login"]);
-Route::post('/register', [UserControler::class, "store"]);
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::prefix('auth')->group(function () {
+    Route::post('/login', [AuthController::class, "login"]);
+    Route::post('/register', [AuthController::class, "register"]);
+});
+
+Route::get('events', [EventsController::class, 'all']);
+
+Route::middleware('auth:api')->group(function () {
+    Route::prefix('profile')->group(function () {
+        Route::get('', [ProfileController::class, "show"]);
+        Route::put('', [ProfileController::class, "update"]);
+        Route::put('/password', [ProfileController::class, "updatePassword"]);
+    });
+    Route::prefix('client')->group(function () {
+        Route::resource('/events', EventsController::class);
+    });
 });

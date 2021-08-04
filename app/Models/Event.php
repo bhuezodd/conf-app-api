@@ -10,6 +10,17 @@ class Event extends Model
 {
     use HasFactory;
 
+
+    protected $fillable = [
+        'name',
+        'image',
+        'start_date',
+        'end_date',
+        'address',
+        'user_id',
+        'category_id',
+    ];
+
     public function category() : BelongsTo
     {
         return $this->belongsTo(Category::class);
@@ -17,6 +28,6 @@ class Event extends Model
 
     public function user() : BelongsTo
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(User::class);
     }
 }
